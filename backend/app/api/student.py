@@ -116,8 +116,8 @@ def upload_profile_photo(
         profile = StudentProfile(user_id=current_user.id)
         db.add(profile)
 
-    # Store as a URL path the frontend can use
-    profile.profile_pic_url = f"http://localhost:8001/uploads/{unique_name}"
+    # Store as a URL path the frontend can use, avoiding hardcoded localhost
+    profile.profile_pic_url = f"/uploads/{unique_name}"
     db.commit()
     db.refresh(profile)
 

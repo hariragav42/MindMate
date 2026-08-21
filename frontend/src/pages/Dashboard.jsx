@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../services/api';
+import api, { API_BASE } from '../services/api';
 import {
   Search,
   Bell,

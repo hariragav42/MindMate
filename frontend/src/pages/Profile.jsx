@@ -124,7 +124,7 @@ const Profile = () => {
           <div className="relative group">
             <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#F8F7F4] shadow-md flex-shrink-0 bg-[#FFF8E7]">
               {profile.profile_pic_url ? (
-                <img src={profile.profile_pic_url} alt={displayName} className="w-full h-full object-cover" />
+                <img src={getAvatarUrl(profile.profile_pic_url)} alt={displayName} className="w-full h-full object-cover" />
               ) : (
                 <MindMateAvatar className="w-full h-full" />
               )}

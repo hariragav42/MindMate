@@ -24,7 +24,8 @@ const Login = () => {
       await login(email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
+      const errorMsg = err.response?.data?.detail || err.message || 'Login failed. Please try again.';
+      setError(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -124,8 +125,8 @@ const Login = () => {
         </div>
 
         <p className="mt-6 text-center text-sm text-text/70 font-medium">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-primary font-black hover:underline">Sign up</Link>
+          Dont have an account? SignUp to create a new one{' '}
+          <Link to="/register" className="text-primary font-black hover:underline">SignUp</Link>
         </p>
         </div>
         </div>
