@@ -2,7 +2,6 @@ from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 import os
-import google.generativeai as genai
 
 router = APIRouter(
     prefix="/api/chat",
