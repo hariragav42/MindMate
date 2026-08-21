@@ -19,6 +19,17 @@ import {
 } from 'lucide-react';
 import { MindMateAvatar, ThumbsUpCharacter } from './Illustrations';
 
+const getAvatarUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('http://localhost:')) {
+    return `${API_BASE}${url.substring(url.indexOf('/uploads'))}`;
+  }
+  if (url.startsWith('/')) {
+    return `${API_BASE}${url}`;
+  }
+  return url;
+};
+
 const Sidebar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -101,7 +112,7 @@ const Sidebar = () => {
           <Link to="/profile" className="flex items-center gap-2.5 min-w-0">
             <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border border-[#E5E5EA] bg-white flex items-center justify-center">
               {user?.profile?.profile_pic_url ? (
-                <img src={user.profile.profile_pic_url.startsWith('http') ? user.profile.profile_pic_url : `http://localhost:8011${user.profile.profile_pic_url}`} alt="Profile" className="w-full h-full object-cover" />
+                <img src={getAvatarUrl(user.profile.profile_pic_url)} alt="Profile" className="w-full h-full object-cover" />
               ) : (
                 <MindMateAvatar className="w-full h-full" />
               )}

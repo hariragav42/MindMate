@@ -32,6 +32,17 @@ import {
   MoodSad
 } from '../components/Illustrations';
 
+const getAvatarUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('http://localhost:')) {
+    return `${API_BASE}${url.substring(url.indexOf('/uploads'))}`;
+  }
+  if (url.startsWith('/')) {
+    return `${API_BASE}${url}`;
+  }
+  return url;
+};
+
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -200,7 +211,7 @@ const Dashboard = () => {
             <Link to="/profile" className="flex items-center gap-2 pl-1 pr-2.5 py-1 bg-[#F8F7F4] rounded-full hover:bg-[#EFEFEA] transition-colors">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center">
                 {user?.profile?.profile_pic_url ? (
-                  <img src={user.profile.profile_pic_url.startsWith('http') ? user.profile.profile_pic_url : `http://localhost:8011${user.profile.profile_pic_url}`} alt="Profile" className="w-full h-full object-cover" />
+                  <img src={getAvatarUrl(user.profile.profile_pic_url)} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <MindMateAvatar className="w-full h-full" />
                 )}
