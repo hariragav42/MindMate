@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-text font-sans antialiased;
+    min-height: 100vh;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-primary;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply px-6 py-3 bg-primary text-white rounded-full 
+           hover:shadow-glow hover:-translate-y-0.5
+           active:translate-y-0 active:shadow-sm
+           transition-all duration-200 font-semibold text-sm tracking-wide;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-white text-text border border-surface rounded-full 
+           hover:border-primary hover:text-primary hover:shadow-sm hover:-translate-y-0.5
+           active:translate-y-0 active:shadow-none
+           transition-all duration-200 font-semibold text-sm;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-text hover:text-primary hover:bg-white/30 rounded-full transition-all duration-200 font-medium text-sm;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-surface p-6 md:p-8 rounded-3xl md:rounded-4xl shadow-soft border border-white/50
+           hover:shadow-soft-hover 
+           transition-all duration-300;
+  }
+
+  .card-glow {
+    @apply bg-surface p-6 md:p-8 rounded-3xl md:rounded-4xl shadow-soft border border-white/50
+           hover:shadow-glow
+           transition-all duration-300;
+  }
+
+  .card-glass {
+    @apply bg-surface/80 backdrop-blur-lg p-6 md:p-8 rounded-3xl md:rounded-4xl shadow-soft border border-white/60
+           transition-all duration-300;
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full px-5 py-3.5 bg-white border border-transparent rounded-2xl 
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
+           transition-all duration-200 text-text placeholder:text-gray-400;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide;
+  }
+
+  .badge-low {
+    @apply badge bg-[#91A84F]/15 text-[#91A84F] border border-[#91A84F]/30;
+  }
+
+  .badge-moderate {
+    @apply badge bg-[#FFD886]/20 text-[#D4A017] border border-[#FFD886]/40;
+  }
+
+  .badge-high {
+    @apply badge bg-[#FF6B6B]/15 text-[#FF6B6B] border border-[#FF6B6B]/30;
+  }
+
+  /* Typography */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-text tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply text-base text-text/70 mt-3 font-medium;
+  }
+
+  .page-container {
+    @apply p-6 md:p-10 max-w-6xl mx-auto w-full;
+  }
+
+  /* Custom scrollbar */
+  .custom-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    @apply bg-white/50 rounded-full hover:bg-white/80;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.5s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Organic Background Elements */
+.organic-blob {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(124, 131, 245, 0.15) 0%, rgba(181, 195, 143, 0) 70%); /* Purple */
+  animation: mindMateFloat 15s ease-in-out infinite;
+}
+
+.blob-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(201, 140, 235, 0.15) 0%, rgba(181, 195, 143, 0) 70%); /* Lavender */
+  animation: mindMateFloat 18s ease-in-out infinite reverse;
+}
