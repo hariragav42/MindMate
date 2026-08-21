@@ -18,7 +18,19 @@ import {
   Sliders,
   Bell
 } from 'lucide-react';
+import { API_BASE } from '../services/api';
 import { MindMateAvatar } from '../components/Illustrations';
+
+const getAvatarUrl = (url) => {
+  if (!url) return null;
+  if (url.startsWith('http://localhost:')) {
+    return `${API_BASE}${url.substring(url.indexOf('/uploads'))}`;
+  }
+  if (url.startsWith('/')) {
+    return `${API_BASE}${url}`;
+  }
+  return url;
+};
 
 const Profile = () => {
   const { user, refreshUser } = useContext(AuthContext);
