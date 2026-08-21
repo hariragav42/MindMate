@@ -13,11 +13,8 @@ app = FastAPI(title="MindMate API")
 # Configure CORS for production and local development
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://mind-mate-five-orcin.vercel.app"
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
