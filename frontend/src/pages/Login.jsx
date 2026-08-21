@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Brain, Eye, EyeOff, Mail, Lock, AlertCircle } from 'lucide-react';
-import { GoogleLogin } from '@react-oauth/google';
 import api from '../services/api';
 
 const Login = () => {
@@ -12,30 +11,10 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login, googleLogin } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    setError('');
-    setLoading(true);
-    try {
-      await googleLogin(credentialResponse.credential);
-      navigate('/dashboard');
-    } catch (err) {
-      console.error("Google login failed", err);
-      let errMsg = 'Google Sign-In failed. Please try again.';
-      if (err.response) {
-        errMsg = `Server error: ${err.response.status} - ${JSON.stringify(err.response.data)}`;
-      } else if (err.request) {
-        errMsg = `Network error: Could not reach server.`;
-      } else {
-        errMsg = `Error: ${err.message}`;
-      }
-      setError(errMsg);
-    } finally {
-      setLoading(false);
-    }
-  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,29 +120,7 @@ const Login = () => {
             </button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white/80 text-text/60 font-bold">Or continue with</span>
-              </div>
-            </div>
 
-            <div className="mt-6 flex justify-center w-full">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={() => {
-                  setError('Google Sign-In failed.');
-                }}
-                theme="outline"
-                size="large"
-                shape="pill"
-                width="320"
-              />
-            </div>
-          </div>
         </div>
 
         <p className="mt-6 text-center text-sm text-text/70 font-medium">
