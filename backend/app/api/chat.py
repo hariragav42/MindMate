@@ -83,7 +83,7 @@ async def chat_with_groq(request: ChatRequest):
         
         # Call Groq API
         response = client.chat.completions.create(
-            model="llama-3.1-70b-versatile",
+            model="openai/gpt-oss-20b",
             messages=formatted_history,
             tools=tools,
             tool_choice="auto",
@@ -110,8 +110,10 @@ async def chat_with_groq(request: ChatRequest):
         return {"response": text_response, "action": action}
         
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         error_msg = str(e)
-        print(f"Chat error: {error_msg}")
+        print(f"Chat error: {error_msg}", flush=True)
         if "rate limit" in error_msg.lower() or "429" in error_msg:
             return {"response": "I'm thinking too fast! Please wait a minute and try again. 🌿", "action": None}
         raise HTTPException(status_code=500, detail="Failed to generate response")

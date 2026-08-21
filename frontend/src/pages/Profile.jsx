@@ -121,11 +121,30 @@ const Profile = () => {
       {/* Header Banner */}
       <div className="bg-white rounded-[32px] p-6 lg:p-8 shadow-soft border border-white/60 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-5">
-          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#F8F7F4] shadow-md flex-shrink-0 bg-[#FFF8E7]">
-            {profile.profile_pic_url ? (
-              <img src={profile.profile_pic_url} alt={displayName} className="w-full h-full object-cover" />
-            ) : (
-              <MindMateAvatar className="w-full h-full" />
+          <div className="relative group">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#F8F7F4] shadow-md flex-shrink-0 bg-[#FFF8E7]">
+              {profile.profile_pic_url ? (
+                <img src={profile.profile_pic_url} alt={displayName} className="w-full h-full object-cover" />
+              ) : (
+                <MindMateAvatar className="w-full h-full" />
+              )}
+            </div>
+            
+            <label className="absolute bottom-0 right-0 p-1.5 bg-white rounded-full shadow-md border border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors z-10" title="Upload Profile Picture">
+              <Camera className="w-4 h-4 text-[#FF874B]" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                disabled={isUploadingImage}
+              />
+            </label>
+
+            {isUploadingImage && (
+              <div className="absolute inset-0 bg-white/50 rounded-full flex items-center justify-center z-20">
+                <Loader2 className="w-6 h-6 text-[#FF874B] animate-spin" />
+              </div>
             )}
           </div>
           <div>
@@ -196,48 +215,7 @@ const Profile = () => {
                 </span>
               </div>
 
-              {/* Profile Picture Upload */}
-              <div>
-                <label className="flex items-center gap-2 text-xs font-bold text-[#1E1E1E] mb-2.5">
-                  <Camera className="w-4 h-4 text-[#FF874B]" /> Profile Picture
-                </label>
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    value={profile.profile_pic_url}
-                    onChange={(e) => setProfile({ ...profile, profile_pic_url: e.target.value })}
-                    placeholder="https://example.com/avatar.jpg"
-                    className="flex-1 px-5 py-3.5 bg-[#F8F7F4] rounded-2xl text-sm font-medium text-[#1E1E1E] border border-transparent focus:border-[#FF874B] focus:bg-white focus:outline-none transition-all"
-                  />
-                  <div className="relative flex-shrink-0">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      disabled={isUploadingImage}
-                    />
-                    <button
-                      type="button"
-                      disabled={isUploadingImage}
-                      className="h-full px-5 bg-[#FF874B] text-white font-bold text-sm rounded-2xl shadow-sm hover:bg-[#FF722A] hover:shadow-md transition-all flex items-center gap-2 whitespace-nowrap"
-                    >
-                      {isUploadingImage ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" /> Uploading...
-                        </>
-                      ) : (
-                        <>
-                          Upload File
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-                <span className="text-[11px] text-[#8E8E93] mt-1 block">
-                  Upload an image or paste a URL. Max size 5MB.
-                </span>
-              </div>
+
 
               {/* Email Address (Read-only) */}
               <div>

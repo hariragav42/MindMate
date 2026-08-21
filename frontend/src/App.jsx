@@ -21,7 +21,7 @@ import Admin from './pages/Admin'
 
 const PrivateRoute = ({ children, roleRequired }) => {
   const { user } = useContext(AuthContext);
-  if (!user) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/" />;
   if (roleRequired && user.role !== roleRequired) return <Navigate to="/dashboard" />;
   return children;
 };
