@@ -54,17 +54,29 @@ export const AuthProvider = ({ children }) => {
       if (name) localStorage.setItem('name', name);
     } catch (err) {
       console.error('Failed to load user details:', err);
-      const fallbackEmail = email || localStorage.getItem('email') || '';
-      const fallbackName = localStorage.getItem('name') || formatDisplayName('', fallbackEmail);
+      let fallbackEmail = email;
+      let fallbackName = '';
+      try {
+        fallbackEmail = email || localStorage.getItem('email') || '';
+        fallbackName = localStorage.getItem('name') || formatDisplayName('', fallbackEmail);
+      } catch (e) {
+        fallbackEmail = email || '';
+        fallbackName = formatDisplayName('', fallbackEmail);
+      }
       setUser({ token, role, id: userId, email: fallbackEmail, name: fallbackName });
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem('role');
-    const user_id = localStorage.getItem('user_id');
-    const email = localStorage.getItem('email');
+    let token, role, user_id, email;
+    try {
+      token = localStorage.getItem('token');
+      role = localStorage.getItem('role');
+      user_id = localStorage.getItem('user_id');
+      email = localStorage.getItem('email');
+    } catch (e) {
+      console.warn('localStorage is disabled or blocked.');
+    }
     
     if (token && role && user_id) {
       fetchUserDetails(token, role, user_id, email).finally(() => setLoading(false));
@@ -81,10 +93,14 @@ export const AuthProvider = ({ children }) => {
     const response = await api.post('/api/auth/login', formData);
     const { access_token, role, user_id } = response.data;
     
-    localStorage.setItem('token', access_token);
-    localStorage.setItem('role', role);
-    localStorage.setItem('user_id', user_id);
-    localStorage.setItem('email', email);
+    try {
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('role', role);
+      localStorage.setItem('user_id', user_id);
+      localStorage.setItem('email', email);
+    } catch (e) {
+      console.warn('localStorage is disabled');
+    }
     
     await fetchUserDetails(access_token, role, user_id, email);
   };
@@ -96,21 +112,27 @@ export const AuthProvider = ({ children }) => {
     if (fullName) {
       await api.put('/api/profile', { full_name: fullName });
       // Refresh user details to get the new name
-      const token = localStorage.getItem('token');
-      const role = localStorage.getItem('role');
-      const user_id = localStorage.getItem('user_id');
-      await fetchUserDetails(token, role, user_id, email);
+      let token, role, user_id;
+      try {
+        token = localStorage.getItem('token');
+        role = localStorage.getItem('role');
+        user_id = localStorage.getItem('user_id');
+      } catch(e) {}
+      
+      if (token) {
+        await fetchUserDetails(token, role, user_id, email);
+      }
     }
   };
 
-
-
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('email');
-    localStorage.removeItem('name');
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('email');
+      localStorage.removeItem('name');
+    } catch (e) {}
     setUser(null);
     delete axios.defaults.headers.common['Authorization'];
   };
